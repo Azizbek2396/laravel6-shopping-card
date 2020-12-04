@@ -29,9 +29,11 @@
 
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('categories.index') }}">Категории</a></li>
-                    <li ><a href="{{ route('products.index') }}">Товары</a></li>
-                    <li ><a href="{{ route('home') }}">Заказы</a></li>
+                    @admin
+                        <li><a href="{{ route('categories.index') }}">Категории</a></li>
+                        <li ><a href="{{ route('products.index') }}">Товары</a></li>
+                        <li ><a href="{{ route('home') }}">Заказы</a></li>
+                    @endadmin
                 </ul>
 
                 @guest
@@ -51,16 +53,16 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false" v-pre>
-                                Администратор
+                                @admin Администратор @else {{ Auth::user()->name }} @endadmin
+
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout')}}"
                                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">
+                                                     document.getElementById('logout-form').submit();">
                                     Выйти
                                 </a>
-
                                 <form id="logout-form" action="{{ route('logout')}}" method="POST"
                                       style="display: none;">
                                     @csrf
