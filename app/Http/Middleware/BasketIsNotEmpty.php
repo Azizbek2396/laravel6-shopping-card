@@ -18,12 +18,8 @@ class BasketIsNotEmpty
     {
         $orderId = session('orderId');
 
-        if (!is_null($orderId)) {
-            $order = Order::findOrFail($orderId);
-//            dd($order->products);
-            if ($order->products->count() > 0) {
-                return $next($request);
-            }
+        if (!is_null($orderId) && Order::getFullSum() > 0) {
+            return $next($request);
         }
 
         session()->flash('warning', 'Ваша корзина пуста');
