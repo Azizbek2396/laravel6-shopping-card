@@ -44,13 +44,13 @@ class MainController extends Controller
     }
 
     public function category($code) {
-        $category = Category::where('code', $code)->first();dd($category);
+        $category = Category::where('code', $code)->first();
         return view('category', compact('category'));
     }
 
     public function product($category, $productCode) {
 
-        $product = Product::withTrashed()->byCode($productCode)->first();
+        $product = Product::withTrashed()->byCode($productCode)->firstOrFail();
         return view("product", compact('product'));
     }
 }
