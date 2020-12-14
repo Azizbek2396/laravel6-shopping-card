@@ -9,12 +9,28 @@
     <p>Цена: <b>{{ $product->price }} руб.</b></p>
     <img src="{{ Storage::url($product->image) }}">
     <p>{{ $product->description }}</p>
-    <form action="{{ route('basket-add', $product) }}" method="POST">
-        @if($product->isAvailable())
+
+    @if($product->isAvailable())
+        <form action="{{ route('basket-add', $product) }}" method="POST">
             <button type="submit" class="btn btn-success" role="button">Добавить в корзину</button>
-        @else
-            Не доступен
+            @csrf
+        </form>
+    @else
+        <span>Не доступен</span>
+        <br>
+        <span>Сообщить мне, когда товар появится в наличии:</span>
+
+        @if($errors->get('email'))
+            <div class="alert alert-warning">
+                {!! $errors->get('email')[0] !!}
+            </div>
         @endif
-        @csrf
-    </form>
+
+        <form action="{{ route('subscription', $product) }}" method="POST">
+            @csrf
+            <input type="text" name="email">
+            <button type="submit">Отправить</button>
+        </form>
+    @endif
+
 @endsection
