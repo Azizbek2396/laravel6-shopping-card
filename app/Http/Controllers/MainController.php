@@ -21,6 +21,8 @@ class MainController extends Controller
 //        Log::channel('single')->debug($request->ip());
 
 //        \Debugbar::info($request);
+
+        \App\Services\CurrencyRates::getRates();
         $productsQuery = Product::with('category');
 
         if ($request->filled('price_from')) {
