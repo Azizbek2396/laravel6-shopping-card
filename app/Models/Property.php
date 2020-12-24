@@ -12,7 +12,7 @@ class Property extends Model
 
     protected $fillable = ['name', 'name_en'];
 
-    public function propertyOpitons()
+    public function propertyOptions()
     {
         return $this->hasMany(PropertyOption::class);
     }
