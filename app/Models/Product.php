@@ -75,12 +75,6 @@ class Product extends Model
         $this->attributes['recommend'] = $value === 'on' ? 1 : 0;
     }
 
-    public function isAvailable()
-    {
-//        dump();
-        return !$this->trashed() && $this->count > 0;
-    }
-
     public function isHit()
     {
         return $this->hit === 1;
