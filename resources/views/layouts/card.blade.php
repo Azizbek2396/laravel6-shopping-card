@@ -21,7 +21,7 @@
             @endisset
             <p>{{ $sku->price }} {{App\Services\CurrencyConversion::getCurrencySymbol()}}</p>
             <p>
-            <form action="{{ route('basket-add', $sku->product) }}" method="POST">
+            <form action="{{ route('basket-add', $sku) }}" method="POST">
                 @if($sku->isAvailable())
                     <button type="submit" class="btn btn-primary" role="button">@lang('main.add_to_basket')</button>
                 @else

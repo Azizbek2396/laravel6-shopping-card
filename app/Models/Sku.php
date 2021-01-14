@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sku extends Model
 {
+    use SoftDeletes;
     protected $fillable = ['product_id', 'count', 'price'];
 
     public function product()
@@ -21,5 +24,13 @@ class Sku extends Model
     public function isAvailable()
     {
         return !$this->product->trashed() && $this->count > 0;
+    }
+
+    public function getPriceForCount() {
+        if (!is_null($this->pivot)){
+            return $this->pivot->count * $this->price;
+        } else {
+            return $this->price;
+        }
     }
 }

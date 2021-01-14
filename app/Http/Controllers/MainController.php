@@ -17,34 +17,31 @@ use Illuminate\Support\Facades\App;
 class MainController extends Controller
 {
     public function index (ProductsFilterRequest $request) {
-//        dd($request->ip());
-//        dd(get_class_methods($request));
-//        Log::channel('single')->debug($request->ip());
 
-//        \Debugbar::info($request);
-
-        $skusQuery = Sku::query();
+        $skusQuery = Sku::with(['product', 'product.category']);
 
 //        \App\Services\CurrencyRates::getRates();
 //        $productsQuery = Product::with('category');
 //
-//        if ($request->filled('price_from')) {
-//            $productsQuery->where('price', '>=', $request->price_from);
-//        }
+        if ($request->filled('price_from')) {
+            $skusQuery->where('price', '>=', $request->price_from);
+        }
 //
-//        if ($request->filled('price_to')) {
-//            $productsQuery->where('price', '<=', $request->price_to);
-//        }
+        if ($request->filled('price_to')) {
+            $skusQuery->where('price', '<=', $request->price_to);
+        }
 //
-//        foreach (['hit', 'new', 'recommend'] as $field) {
-//            if ($request->has($field)){
-//                $productsQuery->$field();
-//            }
-//        }
+        foreach (['hit', 'new', 'recommend'] as $field) {
+            if ($request->has($field)){
+                $skusQuery->whereHas('product' , function($query) use ($field) {
+                        $query->$field();
+                });
+            }
+        }
 //
 //        $products = $productsQuery->paginate(6)->withPath("?" . $request->getQueryString());
 
-        $skus = $skusQuery->paginate(6);
+        $skus = $skusQuery->paginate(6)->withPath("?" . $request->getQueryString());
         return view("index", compact('skus'));
     }
 
