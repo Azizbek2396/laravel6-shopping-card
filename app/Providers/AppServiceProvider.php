@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+//        Blade::withoutComponentTags();
         Blade::directive('routeactive', function ($route) {
             return "<?php echo Route::currentRouteNamed($route) ? 'class=\"active\"' : '' ?>";
         });
