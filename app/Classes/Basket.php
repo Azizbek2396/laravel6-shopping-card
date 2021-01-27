@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Mail\OrderCreated;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Sku;
@@ -112,6 +113,16 @@ class Basket
         }
 
         return true;
+    }
+
+    public function setCoupon(Coupon $coupon)
+    {
+        $this->order->coupon()->associate($coupon);
+    }
+
+    public function clearCoupon()
+    {
+        $this->order->coupon()->dissociate();
     }
 
 }
